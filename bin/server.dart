@@ -6,9 +6,9 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 
-import '../lib/routes/auth_routes.dart';
-import '../lib/routes/social_routes.dart';
-import '../lib/services/auth_service.dart';
+import 'package:auth_dart/routes/auth_routes.dart';
+import 'package:auth_dart/routes/social_routes.dart';
+import 'package:auth_dart/services/auth_service.dart';
 
 // Configure routes.
 final _router = Router()
@@ -161,15 +161,15 @@ Response _rootHandler(Request req) {
             
             <h4>Register Test:</h4>
             <div class="code-block">
-curl -X POST http://localhost:8080/auth/register \
-  -H "Content-Type: application/json" \
+curl -X POST http://localhost:8080/auth/register 
+  -H "Content-Type: application/json" 
   -d '{"email": "test@example.com", "username": "testuser", "password": "password123"}'
             </div>
 
             <h4>Login Test:</h4>
             <div class="code-block">
-curl -X POST http://localhost:8080/auth/login \
-  -H "Content-Type: application/json" \
+curl -X POST http://localhost:8080/auth/login 
+  -H "Content-Type: application/json" 
   -d '{"email": "test@example.com", "password": "password123"}'
             </div>
 

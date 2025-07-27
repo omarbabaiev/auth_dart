@@ -3,8 +3,6 @@ import 'package:sqlite3/sqlite3.dart';
 import '../models/user.dart';
 import '../models/post.dart';
 import '../models/comment.dart';
-import '../models/follow.dart';
-import '../models/like.dart';
 
 class DatabaseService {
   static Database? _database;

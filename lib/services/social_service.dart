@@ -1,7 +1,5 @@
 import '../models/post.dart';
 import '../models/comment.dart';
-import '../models/follow.dart';
-import '../models/like.dart';
 import '../models/user.dart';
 import '../models/auth_response.dart';
 import 'database_service.dart';

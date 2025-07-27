@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:crypto/crypto.dart';
 
 class JwtService {
@@ -32,8 +31,7 @@ class JwtService {
       'user_id': userId,
       'type': 'refresh',
       'iat': DateTime.now().millisecondsSinceEpoch ~/ 1000,
-      'exp':
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
+      'exp': (DateTime.now().millisecondsSinceEpoch ~/ 1000) +
           _refreshExpirationTime,
     };
 
@@ -49,7 +47,6 @@ class JwtService {
       final parts = token.split('.');
       if (parts.length != 3) return null;
 
-      final header = jsonDecode(_base64UrlDecode(parts[0]));
       final payload = jsonDecode(_base64UrlDecode(parts[1]));
       final signature = parts[2];
 

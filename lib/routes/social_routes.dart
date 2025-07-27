@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import '../services/social_service.dart';
-import '../services/auth_service.dart';
 import '../middleware/auth_middleware.dart';
 
 Router createSocialRoutes() {

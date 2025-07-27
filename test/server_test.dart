@@ -36,7 +36,7 @@ void main() {
     test('GET / returns API documentation', () async {
       final response = await client.get(Uri.parse('$baseUrl/'));
       expect(response.statusCode, 200);
-      expect(response.body, contains('Authentication API Server'));
+      expect(response.body, contains('Dart Authentication API'));
     });
 
     test('POST /auth/register creates new user', () async {
@@ -65,7 +65,7 @@ void main() {
       expect(response.statusCode, 400);
       final body = response.body;
       expect(body, contains('"success":false'));
-      expect(body, contains('Geçersiz email formatı'));
+      expect(body, contains('Invalid email format'));
     });
 
     test('POST /auth/register with short password returns error', () async {
@@ -79,7 +79,7 @@ void main() {
       expect(response.statusCode, 400);
       final body = response.body;
       expect(body, contains('"success":false'));
-      expect(body, contains('Şifre en az 6 karakter olmalıdır'));
+      expect(body, contains('Password must be at least 6 characters'));
     });
 
     test('POST /auth/login with valid credentials returns token', () async {
@@ -116,7 +116,7 @@ void main() {
       expect(response.statusCode, 401);
       final body = response.body;
       expect(body, contains('"success":false'));
-      expect(body, contains('Geçersiz email veya şifre'));
+      expect(body, contains('Invalid email or password'));
     });
 
     test('GET /echo/<message> returns the message', () async {

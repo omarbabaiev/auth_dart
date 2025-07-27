@@ -205,7 +205,7 @@ void main(List<String> args) async {
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(handler, ip, port);
 
-  print('🚀 Authentication Server başlatıldı! (Auto-deploy test)');
+  print('🚀 Authentication Server başlatıldı! (Auto-deploy aktif)');
   print('📍 Server adresi: http://${server.address.host}:${server.port}');
   print('📚 API dokümantasyonu: http://${server.address.host}:${server.port}/');
 

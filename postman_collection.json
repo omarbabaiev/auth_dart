@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Dart Authentication API",
-    "description": "Comprehensive authentication API built with Dart and Shelf framework. Features JWT authentication, user management, and localization support.",
+    "description": "Comprehensive authentication API built with Dart and Shelf framework. Features JWT authentication, user management, social media features, and localization support.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -242,6 +242,408 @@
       "description": "User profile management endpoints"
     },
     {
+      "name": "📱 Social Media",
+      "item": [
+        {
+          "name": "📝 Posts",
+          "item": [
+            {
+              "name": "Create Post",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"Hello World! This is my first post.\",\n  \"image_url\": \"https://example.com/image.jpg\",\n  \"hashtags\": [\"hello\", \"world\", \"first\"],\n  \"is_public\": true\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/social/posts",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts"]
+                },
+                "description": "Create a new post with content, image, hashtags, and privacy settings"
+              },
+              "response": []
+            },
+            {
+              "name": "Get Feed",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/posts",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts"]
+                },
+                "description": "Get personalized feed of posts from followed users and public posts"
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Posts",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/posts/user/1",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts", "user", "1"]
+                },
+                "description": "Get all posts from a specific user"
+              },
+              "response": []
+            },
+            {
+              "name": "Update Post",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"Updated post content!\",\n  \"hashtags\": [\"updated\", \"content\"],\n  \"is_public\": false\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/social/posts/1",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts", "1"]
+                },
+                "description": "Update an existing post (only by post owner)"
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Post",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/posts/1",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts", "1"]
+                },
+                "description": "Delete a post (only by post owner)"
+              },
+              "response": []
+            }
+          ],
+          "description": "Post management endpoints"
+        },
+        {
+          "name": "💬 Comments",
+          "item": [
+            {
+              "name": "Create Comment",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"Great post! Thanks for sharing.\",\n  \"parent_comment_id\": null\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/social/posts/1/comments",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts", "1", "comments"]
+                },
+                "description": "Create a comment on a post"
+              },
+              "response": []
+            },
+            {
+              "name": "Get Post Comments",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/posts/1/comments",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts", "1", "comments"]
+                },
+                "description": "Get all comments for a specific post"
+              },
+              "response": []
+            },
+            {
+              "name": "Update Comment",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"Updated comment content!\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/social/comments/1",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "comments", "1"]
+                },
+                "description": "Update a comment (only by comment owner)"
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Comment",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/comments/1",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "comments", "1"]
+                },
+                "description": "Delete a comment (only by comment owner)"
+              },
+              "response": []
+            }
+          ],
+          "description": "Comment management endpoints"
+        },
+        {
+          "name": "❤️ Likes",
+          "item": [
+            {
+              "name": "Like Post",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/posts/1/like",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts", "1", "like"]
+                },
+                "description": "Like a post"
+              },
+              "response": []
+            },
+            {
+              "name": "Unlike Post",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/posts/1/like",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "posts", "1", "like"]
+                },
+                "description": "Unlike a post"
+              },
+              "response": []
+            },
+            {
+              "name": "Like Comment",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/comments/1/like",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "comments", "1", "like"]
+                },
+                "description": "Like a comment"
+              },
+              "response": []
+            },
+            {
+              "name": "Unlike Comment",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/comments/1/like",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "comments", "1", "like"]
+                },
+                "description": "Unlike a comment"
+              },
+              "response": []
+            }
+          ],
+          "description": "Like management endpoints"
+        },
+        {
+          "name": "👥 Follows",
+          "item": [
+            {
+              "name": "Follow User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/users/2/follow",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "users", "2", "follow"]
+                },
+                "description": "Follow another user"
+              },
+              "response": []
+            },
+            {
+              "name": "Unfollow User",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/users/2/follow",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "users", "2", "follow"]
+                },
+                "description": "Unfollow another user"
+              },
+              "response": []
+            },
+            {
+              "name": "Get Followers",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/users/1/followers",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "users", "1", "followers"]
+                },
+                "description": "Get list of users who follow a specific user"
+              },
+              "response": []
+            },
+            {
+              "name": "Get Following",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/social/users/1/following",
+                  "protocol": "http",
+                  "host": ["{{base_url}}"],
+                  "path": ["social", "users", "1", "following"]
+                },
+                "description": "Get list of users that a specific user is following"
+              },
+              "response": []
+            }
+          ],
+          "description": "Follow management endpoints"
+        }
+      ],
+      "description": "Social media features including posts, comments, likes, and follows"
+    },
+    {
       "name": "🧪 Test & Documentation",
       "item": [
         {
@@ -358,7 +760,7 @@
               "raw": "{\n  \"email\": \"wrong@example.com\",\n  \"password\": \"wrongpassword\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/auth/login",
+              "raw": "{{base_url}}/auth/register",
               "protocol": "http",
               "host": ["{{base_url}}"],
               "path": ["auth", "login"]
@@ -379,6 +781,21 @@
               "path": ["auth", "profile"]
             },
             "description": "Test unauthorized access error"
+          },
+          "response": []
+        },
+        {
+          "name": "Social - Unauthorized",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/social/posts",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["social", "posts"]
+            },
+            "description": "Test unauthorized access to social media endpoints"
           },
           "response": []
         }

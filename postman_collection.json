@@ -1,0 +1,230 @@
+{
+  "info": {
+    "name": "Dart Authentication API",
+    "description": "Dart ile geliştirilmiş authentication API'si için Postman collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "register"]
+            },
+            "description": "Yeni kullanıcı kaydı oluşturur"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "login"]
+            },
+            "description": "Kullanıcı girişi yapar"
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"YOUR_REFRESH_TOKEN_HERE\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/refresh",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "refresh"]
+            },
+            "description": "Token yeniler"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"YOUR_REFRESH_TOKEN_HERE\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/logout",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "logout"]
+            },
+            "description": "Kullanıcı çıkışı yapar"
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication endpoint'leri"
+    },
+    {
+      "name": "👤 User Management",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/auth/profile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "profile"]
+            },
+            "description": "Kullanıcı profil bilgilerini getirir"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_TOKEN_HERE"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"newusername\",\n  \"email\": \"newemail@example.com\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/profile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "profile"]
+            },
+            "description": "Kullanıcı profil bilgilerini günceller"
+          },
+          "response": []
+        }
+      ],
+      "description": "Kullanıcı yönetimi endpoint'leri"
+    },
+    {
+      "name": "🧪 Test Endpoints",
+      "item": [
+        {
+          "name": "Echo Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/echo/hello",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["echo", "hello"]
+            },
+            "description": "Test endpoint"
+          },
+          "response": []
+        },
+        {
+          "name": "API Documentation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [""]
+            },
+            "description": "API dokümantasyonu"
+          },
+          "response": []
+        }
+      ],
+      "description": "Test ve dokümantasyon endpoint'leri"
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+} 

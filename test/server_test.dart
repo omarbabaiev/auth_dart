@@ -84,18 +84,26 @@ void main() {
 
     test('POST /auth/login with valid credentials returns token', () async {
       // Önce kullanıcı oluştur
-      await client.post(
+      final email = 'login${DateTime.now().millisecondsSinceEpoch}@example.com';
+      final username = 'loginuser${DateTime.now().millisecondsSinceEpoch}';
+
+      final registerResponse = await client.post(
         Uri.parse('$baseUrl/auth/register'),
         headers: {'Content-Type': 'application/json'},
         body:
-            '{"email": "login@example.com", "username": "loginuser", "password": "password123"}',
+            '{"email": "$email", "username": "$username", "password": "password123"}',
       );
+
+      expect(registerResponse.statusCode, 200);
+
+      // Kısa bir bekleme süresi
+      await Future.delayed(Duration(milliseconds: 500));
 
       // Sonra giriş yap
       final response = await client.post(
         Uri.parse('$baseUrl/auth/login'),
         headers: {'Content-Type': 'application/json'},
-        body: '{"email": "login@example.com", "password": "password123"}',
+        body: '{"email": "$email", "password": "password123"}',
       );
 
       expect(response.statusCode, 200);

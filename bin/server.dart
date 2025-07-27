@@ -7,13 +7,15 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 
 import '../lib/routes/auth_routes.dart';
+import '../lib/routes/social_routes.dart';
 import '../lib/services/auth_service.dart';
 
 // Configure routes.
 final _router = Router()
   ..get('/', _rootHandler)
   ..get('/echo/<message>', _echoHandler)
-  ..mount('/auth/', createAuthRoutes());
+  ..mount('/auth/', createAuthRoutes())
+  ..mount('/social/', createSocialRoutes());
 
 Response _rootHandler(Request req) {
   return Response.ok(

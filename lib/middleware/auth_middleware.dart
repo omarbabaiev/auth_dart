@@ -41,6 +41,7 @@ Handler authMiddleware(Handler innerHandler) {
     // Kullanıcı bilgisini request'e ekle
     final updatedRequest = request.change(
       context: {'user': user, 'user_id': user.id, 'email': user.email},
+      headers: {...request.headers, 'user-id': user.id.toString()},
     );
 
     return innerHandler(updatedRequest);
@@ -60,6 +61,7 @@ Handler optionalAuthMiddleware(Handler innerHandler) {
         if (user != null) {
           final updatedRequest = request.change(
             context: {'user': user, 'user_id': user.id, 'email': user.email},
+            headers: {...request.headers, 'user-id': user.id.toString()},
           );
           return innerHandler(updatedRequest);
         }

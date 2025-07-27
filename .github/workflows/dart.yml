@@ -1,4 +1,4 @@
-name: Dart CI
+name: Dart CI & Railway Deploy
 
 on:
   push:
@@ -28,4 +28,25 @@ jobs:
       run: dart test
       
     - name: Check formatting
-      run: dart format --output=none --set-exit-if-changed . 
+      run: dart format --output=none --set-exit-if-changed .
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Install Railway CLI
+      run: npm install -g @railway/cli
+    
+    - name: Deploy to Railway
+      run: railway up
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} 

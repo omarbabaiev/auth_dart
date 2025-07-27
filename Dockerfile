@@ -6,16 +6,29 @@ WORKDIR /app
 COPY pubspec.* ./
 RUN dart pub get
 
-# Copy app source code (except anything in .dockerignore) and AOT compile app.
+# Copy app source code and AOT compile app.
 COPY . .
 RUN dart compile exe bin/server.dart -o bin/server
 
 # Build minimal serving image from AOT-compiled `/server`
-# and the pre-built AOT-runtime in the `/runtime/` directory of the base image.
-FROM scratch
-COPY --from=build /runtime/ /
+FROM debian:bookworm-slim
+
+# Install SQLite and development libraries
+RUN apt-get update && apt-get install -y \
+    sqlite3 \
+    libsqlite3-0 \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy runtime and compiled app
 COPY --from=build /app/bin/server /app/bin/
 
-# Start server.
+# Create app directory and database directory
+WORKDIR /app
+RUN mkdir -p /app/database
+
+# Expose port
 EXPOSE 8080
+
+# Start server
 CMD ["/app/bin/server"]

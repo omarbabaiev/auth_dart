@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Dart Authentication API",
-    "description": "Dart ile geliştirilmiş authentication API'si için Postman collection",
+    "description": "Comprehensive authentication API built with Dart and Shelf framework. Features JWT authentication, user management, and localization support.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -9,7 +9,7 @@
       "name": "🔐 Authentication",
       "item": [
         {
-          "name": "Register",
+          "name": "Register (Extended)",
           "request": {
             "method": "POST",
             "header": [
@@ -20,16 +20,63 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"test@example.com\",\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"username\": \"testuser\",\n  \"password\": \"password123\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"phone_number\": \"+905551234567\",\n  \"date_of_birth\": \"1990-01-01\",\n  \"address\": \"123 Main Street\",\n  \"city\": \"Istanbul\",\n  \"country\": \"Turkey\",\n  \"bio\": \"Software Developer\",\n  \"avatar_url\": \"https://example.com/avatar.jpg\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8080/auth/register",
+              "raw": "{{base_url}}/auth/register",
               "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
+              "host": ["{{base_url}}"],
               "path": ["auth", "register"]
             },
-            "description": "Yeni kullanıcı kaydı oluşturur"
+            "description": "Create user registration with all optional fields"
+          },
+          "response": []
+        },
+        {
+          "name": "Register (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"basic@example.com\",\n  \"username\": \"basicuser\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Create user registration with only required fields"
+          },
+          "response": []
+        },
+        {
+          "name": "Register (Partial)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"partial@example.com\",\n  \"username\": \"partialuser\",\n  \"password\": \"password123\",\n  \"first_name\": \"Jane\",\n  \"last_name\": \"Smith\",\n  \"phone_number\": \"+905559876543\",\n  \"city\": \"Ankara\",\n  \"country\": \"Turkey\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Create user registration with some optional fields"
           },
           "response": []
         },
@@ -48,13 +95,12 @@
               "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8080/auth/login",
+              "raw": "{{base_url}}/auth/login",
               "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
+              "host": ["{{base_url}}"],
               "path": ["auth", "login"]
             },
-            "description": "Kullanıcı girişi yapar"
+            "description": "User login with email and password"
           },
           "response": []
         },
@@ -70,16 +116,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"refresh_token\": \"YOUR_REFRESH_TOKEN_HERE\"\n}"
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8080/auth/refresh",
+              "raw": "{{base_url}}/auth/refresh",
               "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
+              "host": ["{{base_url}}"],
               "path": ["auth", "refresh"]
             },
-            "description": "Token yeniler"
+            "description": "Refresh access token using refresh token"
           },
           "response": []
         },
@@ -90,7 +135,7 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer YOUR_TOKEN_HERE"
+                "value": "Bearer {{token}}"
               },
               {
                 "key": "Content-Type",
@@ -99,21 +144,20 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"refresh_token\": \"YOUR_REFRESH_TOKEN_HERE\"\n}"
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8080/auth/logout",
+              "raw": "{{base_url}}/auth/logout",
               "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
+              "host": ["{{base_url}}"],
               "path": ["auth", "logout"]
             },
-            "description": "Kullanıcı çıkışı yapar"
+            "description": "User logout and invalidate refresh token"
           },
           "response": []
         }
       ],
-      "description": "Authentication endpoint'leri"
+      "description": "Authentication endpoints for user registration, login, logout, and token management"
     },
     {
       "name": "👤 User Management",
@@ -125,28 +169,27 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer YOUR_TOKEN_HERE"
+                "value": "Bearer {{token}}"
               }
             ],
             "url": {
-              "raw": "http://localhost:8080/auth/profile",
+              "raw": "{{base_url}}/auth/profile",
               "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
+              "host": ["{{base_url}}"],
               "path": ["auth", "profile"]
             },
-            "description": "Kullanıcı profil bilgilerini getirir"
+            "description": "Get current user profile information"
           },
           "response": []
         },
         {
-          "name": "Update Profile",
+          "name": "Update Profile (Full)",
           "request": {
             "method": "PUT",
             "header": [
               {
                 "key": "Authorization",
-                "value": "Bearer YOUR_TOKEN_HERE"
+                "value": "Bearer {{token}}"
               },
               {
                 "key": "Content-Type",
@@ -155,76 +198,232 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"username\": \"newusername\",\n  \"email\": \"newemail@example.com\"\n}"
+              "raw": "{\n  \"username\": \"newusername\",\n  \"email\": \"newemail@example.com\",\n  \"first_name\": \"Updated\",\n  \"last_name\": \"Name\",\n  \"phone_number\": \"+905551111111\",\n  \"date_of_birth\": \"1985-05-15\",\n  \"address\": \"456 New Street\",\n  \"city\": \"Izmir\",\n  \"country\": \"Turkey\",\n  \"bio\": \"Updated bio with more details\",\n  \"avatar_url\": \"https://example.com/new-avatar.jpg\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8080/auth/profile",
+              "raw": "{{base_url}}/auth/profile",
               "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
+              "host": ["{{base_url}}"],
               "path": ["auth", "profile"]
             },
-            "description": "Kullanıcı profil bilgilerini günceller"
+            "description": "Update user profile with all fields"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile (Partial)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"city\": \"Istanbul\",\n  \"bio\": \"Software Developer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            },
+            "description": "Update user profile with selected fields only"
           },
           "response": []
         }
       ],
-      "description": "Kullanıcı yönetimi endpoint'leri"
+      "description": "User profile management endpoints"
     },
     {
-      "name": "🧪 Test Endpoints",
+      "name": "🧪 Test & Documentation",
       "item": [
-        {
-          "name": "Echo Test",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:8080/echo/hello",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
-              "path": ["echo", "hello"]
-            },
-            "description": "Test endpoint"
-          },
-          "response": []
-        },
         {
           "name": "API Documentation",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8080/",
+              "raw": "{{base_url}}/",
               "protocol": "http",
-              "host": ["localhost"],
-              "port": "8080",
+              "host": ["{{base_url}}"],
               "path": [""]
             },
-            "description": "API dokümantasyonu"
+            "description": "Get API documentation and usage examples"
+          },
+          "response": []
+        },
+        {
+          "name": "Echo Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/echo/hello",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["echo", "hello"]
+            },
+            "description": "Simple echo test endpoint"
+          },
+          "response": []
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            },
+            "description": "Check server health status"
           },
           "response": []
         }
       ],
-      "description": "Test ve dokümantasyon endpoint'leri"
+      "description": "Test endpoints and documentation"
+    },
+    {
+      "name": "🔍 Error Examples",
+      "item": [
+        {
+          "name": "Register - Invalid Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"invalid-email\",\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Test invalid email format error"
+          },
+          "response": []
+        },
+        {
+          "name": "Register - Short Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"username\": \"testuser\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Test password too short error"
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"wrong@example.com\",\n  \"password\": \"wrongpassword\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Test invalid login credentials error"
+          },
+          "response": []
+        },
+        {
+          "name": "Profile - Unauthorized",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "protocol": "http",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            },
+            "description": "Test unauthorized access error"
+          },
+          "response": []
+        }
+      ],
+      "description": "Error handling examples and testing"
     }
   ],
   "variable": [
     {
       "key": "base_url",
       "value": "http://localhost:8080",
-      "type": "string"
+      "type": "string",
+      "description": "Base URL for the API server"
     },
     {
       "key": "token",
       "value": "",
-      "type": "string"
+      "type": "string",
+      "description": "JWT access token for authenticated requests"
     },
     {
       "key": "refresh_token",
       "value": "",
-      "type": "string"
+      "type": "string",
+      "description": "JWT refresh token for token renewal"
+    }
+  ],
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-save tokens from login/register responses",
+          "if (pm.response.code === 200) {",
+          "    const response = pm.response.json();",
+          "    if (response.token) {",
+          "        pm.collectionVariables.set('token', response.token);",
+          "    }",
+          "    if (response.refresh_token) {",
+          "        pm.collectionVariables.set('refresh_token', response.refresh_token);",
+          "    }",
+          "}"
+        ]
+      }
     }
   ]
 } 

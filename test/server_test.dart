@@ -95,9 +95,10 @@ void main() {
       );
 
       expect(registerResponse.statusCode, 200);
+      print('Register response: ${registerResponse.body}');
 
-      // Kısa bir bekleme süresi
-      await Future.delayed(Duration(milliseconds: 500));
+      // Daha uzun bekleme süresi
+      await Future.delayed(Duration(seconds: 2));
 
       // Sonra giriş yap
       final response = await client.post(
@@ -105,6 +106,9 @@ void main() {
         headers: {'Content-Type': 'application/json'},
         body: '{"email": "$email", "password": "password123"}',
       );
+
+      print('Login response status: ${response.statusCode}');
+      print('Login response body: ${response.body}');
 
       expect(response.statusCode, 200);
       final body = response.body;

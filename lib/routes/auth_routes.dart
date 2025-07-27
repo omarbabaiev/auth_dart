@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import '../services/auth_service.dart';
+import '../services/database_service.dart';
 import '../middleware/auth_middleware.dart';
 
 Router createAuthRoutes() {
@@ -230,15 +231,36 @@ Future<Response> _profileHandler(Request request) async {
   try {
     final user = request.context['user'] as dynamic;
 
+    if (user == null) {
+      return Response(
+        401,
+        body: jsonEncode({
+          'success': false,
+          'message': 'User not found',
+          'key': 'auth.user.not_found',
+        }),
+        headers: {'content-type': 'application/json'},
+      );
+    }
+
     return Response(
       200,
-      body: jsonEncode({'success': true, 'user': user.toJson()}),
+      body: jsonEncode({
+        'success': true,
+        'user': user.toJson(),
+        'message': 'Profile retrieved successfully',
+        'key': 'auth.user.profile.get.success',
+      }),
       headers: {'content-type': 'application/json'},
     );
   } catch (e) {
     return Response(
       500,
-      body: jsonEncode({'success': false, 'message': 'Sunucu hatası: $e'}),
+      body: jsonEncode({
+        'success': false,
+        'message': 'Server error: $e',
+        'key': 'auth.server.error',
+      }),
       headers: {'content-type': 'application/json'},
     );
   }
@@ -246,19 +268,50 @@ Future<Response> _profileHandler(Request request) async {
 
 Future<Response> _updateProfileHandler(Request request) async {
   try {
+    final user = request.context['user'] as dynamic;
+
+    if (user == null) {
+      return Response(
+        401,
+        body: jsonEncode({
+          'success': false,
+          'message': 'User not found',
+          'key': 'auth.user.not_found',
+        }),
+        headers: {'content-type': 'application/json'},
+      );
+    }
+
     final body = await request.readAsString();
     final data = jsonDecode(body) as Map<String, dynamic>;
-    final user = request.context['user'] as dynamic;
 
     final username = data['username']?.toString();
     final email = data['email']?.toString();
+    final firstName = data['first_name']?.toString();
+    final lastName = data['last_name']?.toString();
+    final phoneNumber = data['phone_number']?.toString();
+    final address = data['address']?.toString();
+    final city = data['city']?.toString();
+    final country = data['country']?.toString();
+    final bio = data['bio']?.toString();
+    final avatarUrl = data['avatar_url']?.toString();
 
-    if (username == null && email == null) {
+    if (username == null &&
+        email == null &&
+        firstName == null &&
+        lastName == null &&
+        phoneNumber == null &&
+        address == null &&
+        city == null &&
+        country == null &&
+        bio == null &&
+        avatarUrl == null) {
       return Response(
         400,
         body: jsonEncode({
           'success': false,
-          'message': 'Güncellenecek alan gerekli',
+          'message': 'At least one field to update is required',
+          'key': 'auth.user.profile.update.no_fields',
         }),
         headers: {'content-type': 'application/json'},
       );
@@ -267,53 +320,52 @@ Future<Response> _updateProfileHandler(Request request) async {
     final updates = <String, dynamic>{};
     if (username != null) updates['username'] = username;
     if (email != null) updates['email'] = email.toLowerCase();
+    if (firstName != null) updates['first_name'] = firstName;
+    if (lastName != null) updates['last_name'] = lastName;
+    if (phoneNumber != null) updates['phone_number'] = phoneNumber;
+    if (address != null) updates['address'] = address;
+    if (city != null) updates['city'] = city;
+    if (country != null) updates['country'] = country;
+    if (bio != null) updates['bio'] = bio;
+    if (avatarUrl != null) updates['avatar_url'] = avatarUrl;
     updates['updated_at'] = DateTime.now().toIso8601String();
 
-    final success = await _updateUserInDatabase(user.id, updates);
+    final success = DatabaseService.updateUser(user.id, updates);
 
     if (!success) {
       return Response(
         500,
         body: jsonEncode({
           'success': false,
-          'message': 'Profil güncellenirken hata oluştu',
+          'message': 'Failed to update profile',
+          'key': 'auth.user.profile.update.failed',
         }),
         headers: {'content-type': 'application/json'},
       );
     }
 
-    // Güncellenmiş kullanıcı bilgisini al
-    final updatedUser = await _getUserById(user.id);
+    // Get updated user information
+    final updatedUser = DatabaseService.getUserById(user.id);
 
     return Response(
       200,
       body: jsonEncode({
         'success': true,
         'user': updatedUser?.toJson(),
-        'message': 'Profil başarıyla güncellendi',
+        'message': 'Profile updated successfully',
+        'key': 'auth.user.profile.update.success',
       }),
       headers: {'content-type': 'application/json'},
     );
   } catch (e) {
     return Response(
       500,
-      body: jsonEncode({'success': false, 'message': 'Sunucu hatası: $e'}),
+      body: jsonEncode({
+        'success': false,
+        'message': 'Server error: $e',
+        'key': 'auth.server.error',
+      }),
       headers: {'content-type': 'application/json'},
     );
   }
-}
-
-Future<bool> _updateUserInDatabase(
-  int userId,
-  Map<String, dynamic> updates,
-) async {
-  // Bu fonksiyon DatabaseService.updateUser'ı çağırır
-  // Şimdilik basit bir implementasyon
-  return true;
-}
-
-Future<dynamic> _getUserById(int userId) async {
-  // Bu fonksiyon DatabaseService.getUserById'i çağırır
-  // Şimdilik basit bir implementasyon
-  return null;
 }

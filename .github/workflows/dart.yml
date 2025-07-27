@@ -46,8 +46,7 @@ jobs:
     - name: Install Railway CLI
       run: npm install -g @railway/cli
     
-    - name: Login to Railway
-      run: echo ${{ secrets.RAILWAY_TOKEN }} | railway login
-    
     - name: Deploy to Railway
-      run: railway up --service dart_auth_app 
+      run: railway up --service dart_auth_app
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} 

@@ -53,9 +53,8 @@ class Post {
       hashtags: map['hashtags']?.split(','),
       isPublic: map['is_public'] == 1,
       createdAt: DateTime.parse(map['created_at']),
-      updatedAt: map['updated_at'] != null
-          ? DateTime.parse(map['updated_at'])
-          : null,
+      updatedAt:
+          map['updated_at'] != null ? DateTime.parse(map['updated_at']) : null,
       likeCount: map['like_count'] ?? 0,
       commentCount: map['comment_count'] ?? 0,
       shareCount: map['share_count'] ?? 0,

@@ -43,9 +43,8 @@ class Comment {
       content: map['content'],
       parentCommentId: map['parent_comment_id'],
       createdAt: DateTime.parse(map['created_at']),
-      updatedAt: map['updated_at'] != null
-          ? DateTime.parse(map['updated_at'])
-          : null,
+      updatedAt:
+          map['updated_at'] != null ? DateTime.parse(map['updated_at']) : null,
       likeCount: map['like_count'] ?? 0,
       isEdited: map['is_edited'] == 1,
     );

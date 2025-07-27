@@ -79,9 +79,8 @@ class User {
       isActive: map['is_active'] == 1,
       isEmailVerified: map['is_email_verified'] == 1,
       createdAt: DateTime.parse(map['created_at']),
-      updatedAt: map['updated_at'] != null
-          ? DateTime.parse(map['updated_at'])
-          : null,
+      updatedAt:
+          map['updated_at'] != null ? DateTime.parse(map['updated_at']) : null,
     );
   }
 
